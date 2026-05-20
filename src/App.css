@@ -4,3 +4,18 @@
   padding: 2rem;
   font-family: system-ui, sans-serif;
 }
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.todo-title {
+  transition: color 0.15s, text-decoration 0.15s;
+}
+
+.todo-title.completed {
+  text-decoration: line-through;
+  color: #aaa;
+}
