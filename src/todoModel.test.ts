@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { addTodo, toggleTodo, removeTodo, editTodo, type Todo } from './todoModel'
+import { addTodo, toggleTodo, removeTodo, editTodo, filterTodos, type Todo } from './todoModel'
 
 describe('addTodo', () => {
   it('prepends the new todo to the list', () => {
@@ -100,5 +100,29 @@ describe('editTodo', () => {
   it('removes the todo when new title is whitespace only', () => {
     const result = editTodo(base, '1', '   ')
     expect(result).toHaveLength(1)
+  })
+})
+
+describe('filterTodos', () => {
+  const todos: Todo[] = [
+    { id: '1', title: 'active one', completed: false, createdAt: '' },
+    { id: '2', title: 'done one', completed: true, createdAt: '' },
+    { id: '3', title: 'active two', completed: false, createdAt: '' },
+  ]
+
+  it('returns all todos for "all"', () => {
+    expect(filterTodos(todos, 'all')).toHaveLength(3)
+  })
+
+  it('returns only incomplete todos for "active"', () => {
+    const result = filterTodos(todos, 'active')
+    expect(result).toHaveLength(2)
+    expect(result.every(t => !t.completed)).toBe(true)
+  })
+
+  it('returns only completed todos for "completed"', () => {
+    const result = filterTodos(todos, 'completed')
+    expect(result).toHaveLength(1)
+    expect(result[0].completed).toBe(true)
   })
 })
