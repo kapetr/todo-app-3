@@ -1,19 +1,10 @@
-import { useState } from 'react'
-import { Todo, addTodo, toggleTodo } from './todoModel'
+import { useTodos } from './useTodos'
 import { NewTodoInput } from './NewTodoInput'
 import { TodoList } from './TodoList'
 import './App.css'
 
 function App() {
-  const [todos, setTodos] = useState<Todo[]>([])
-
-  function handleAdd(title: string) {
-    setTodos(prev => addTodo(prev, title))
-  }
-
-  function handleToggle(id: string) {
-    setTodos(prev => toggleTodo(prev, id))
-  }
+  const { todos, handleAdd, handleToggle } = useTodos()
 
   return (
     <div className="app">
