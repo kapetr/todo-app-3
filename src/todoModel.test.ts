@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { addTodo, toggleTodo, removeTodo, editTodo, filterTodos, type Todo } from './todoModel'
+import { addTodo, toggleTodo, removeTodo, editTodo, filterTodos, clearCompleted, type Todo } from './todoModel'
 
 describe('addTodo', () => {
   it('prepends the new todo to the list', () => {
@@ -124,5 +124,33 @@ describe('filterTodos', () => {
     const result = filterTodos(todos, 'completed')
     expect(result).toHaveLength(1)
     expect(result[0].completed).toBe(true)
+  })
+})
+
+describe('clearCompleted', () => {
+  const base: Todo[] = [
+    { id: '1', title: 'active', completed: false, createdAt: '' },
+    { id: '2', title: 'done one', completed: true, createdAt: '' },
+    { id: '3', title: 'also active', completed: false, createdAt: '' },
+    { id: '4', title: 'done two', completed: true, createdAt: '' },
+  ]
+
+  it('removes only completed todos', () => {
+    const result = clearCompleted(base)
+    expect(result).toHaveLength(2)
+    expect(result.every(t => !t.completed)).toBe(true)
+  })
+
+  it('leaves active todos untouched', () => {
+    const result = clearCompleted(base)
+    expect(result[0].id).toBe('1')
+    expect(result[1].id).toBe('3')
+  })
+
+  it('is a no-op when there are no completed todos', () => {
+    const allActive: Todo[] = [
+      { id: '1', title: 'a', completed: false, createdAt: '' },
+    ]
+    expect(clearCompleted(allActive)).toHaveLength(1)
   })
 })

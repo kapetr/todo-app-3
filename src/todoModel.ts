@@ -37,3 +37,7 @@ export function filterTodos(todos: Todo[], filter: Filter): Todo[] {
   if (filter === 'completed') return todos.filter(t => t.completed)
   return todos
 }
+
+export function clearCompleted(todos: Todo[]): Todo[] {
+  return todos.filter(t => !t.completed)
+}
