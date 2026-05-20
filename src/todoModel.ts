@@ -23,3 +23,9 @@ export function toggleTodo(todos: Todo[], id: string): Todo[] {
 export function removeTodo(todos: Todo[], id: string): Todo[] {
   return todos.filter(t => t.id !== id)
 }
+
+export function editTodo(todos: Todo[], id: string, newTitle: string): Todo[] {
+  const trimmed = newTitle.trim()
+  if (!trimmed) return removeTodo(todos, id)
+  return todos.map(t => t.id === id ? { ...t, title: trimmed } : t)
+}

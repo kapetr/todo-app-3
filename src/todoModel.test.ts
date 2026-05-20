@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { addTodo, toggleTodo, removeTodo, type Todo } from './todoModel'
+import { addTodo, toggleTodo, removeTodo, editTodo, type Todo } from './todoModel'
 
 describe('addTodo', () => {
   it('prepends the new todo to the list', () => {
@@ -71,5 +71,34 @@ describe('removeTodo', () => {
   it('is a no-op on unknown id', () => {
     const result = removeTodo(base, 'unknown')
     expect(result).toHaveLength(3)
+  })
+})
+
+describe('editTodo', () => {
+  const base: Todo[] = [
+    { id: '1', title: 'first', completed: false, createdAt: '' },
+    { id: '2', title: 'second', completed: false, createdAt: '' },
+  ]
+
+  it('replaces the title of the matching todo', () => {
+    const result = editTodo(base, '1', 'updated')
+    expect(result[0].title).toBe('updated')
+    expect(result[1].title).toBe('second')
+  })
+
+  it('trims whitespace from the new title', () => {
+    const result = editTodo(base, '1', '  trimmed  ')
+    expect(result[0].title).toBe('trimmed')
+  })
+
+  it('removes the todo when new title is empty', () => {
+    const result = editTodo(base, '1', '')
+    expect(result).toHaveLength(1)
+    expect(result[0].id).toBe('2')
+  })
+
+  it('removes the todo when new title is whitespace only', () => {
+    const result = editTodo(base, '1', '   ')
+    expect(result).toHaveLength(1)
   })
 })
