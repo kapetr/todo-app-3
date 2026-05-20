@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { addTodo, toggleTodo, type Todo } from './todoModel'
+import { addTodo, toggleTodo, removeTodo, type Todo } from './todoModel'
 
 describe('addTodo', () => {
   it('prepends the new todo to the list', () => {
@@ -46,5 +46,30 @@ describe('toggleTodo', () => {
     const once = toggleTodo(base, '1')
     const twice = toggleTodo(once, '1')
     expect(twice[0].completed).toBe(false)
+  })
+})
+
+describe('removeTodo', () => {
+  const base: Todo[] = [
+    { id: '1', title: 'first', completed: false, createdAt: '' },
+    { id: '2', title: 'second', completed: false, createdAt: '' },
+    { id: '3', title: 'third', completed: false, createdAt: '' },
+  ]
+
+  it('removes the matching todo', () => {
+    const result = removeTodo(base, '2')
+    expect(result).toHaveLength(2)
+    expect(result.find(t => t.id === '2')).toBeUndefined()
+  })
+
+  it('leaves other todos untouched', () => {
+    const result = removeTodo(base, '2')
+    expect(result[0].id).toBe('1')
+    expect(result[1].id).toBe('3')
+  })
+
+  it('is a no-op on unknown id', () => {
+    const result = removeTodo(base, 'unknown')
+    expect(result).toHaveLength(3)
   })
 })
