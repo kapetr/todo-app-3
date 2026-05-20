@@ -12,9 +12,12 @@ export function TodoItem({ todo, onToggle, onRemove, onEdit }: Props) {
   const [editing, setEditing] = useState(false)
   const [draft, setDraft] = useState(todo.title)
   const inputRef = useRef<HTMLInputElement>(null)
+  // Tracks whether Escape was pressed so onBlur does not commit the cancelled edit
+  const cancelledRef = useRef(false)
 
   useEffect(() => {
     if (editing) {
+      cancelledRef.current = false
       setDraft(todo.title)
       inputRef.current?.focus()
       inputRef.current?.select()
@@ -22,12 +25,13 @@ export function TodoItem({ todo, onToggle, onRemove, onEdit }: Props) {
   }, [editing, todo.title])
 
   function commitEdit() {
+    if (cancelledRef.current) return
     onEdit(todo.id, draft)
     setEditing(false)
   }
 
   function cancelEdit() {
-    setDraft(todo.title)
+    cancelledRef.current = true
     setEditing(false)
   }
 
