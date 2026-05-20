@@ -19,3 +19,7 @@ export function addTodo(todos: Todo[], title: string): Todo[] {
 export function toggleTodo(todos: Todo[], id: string): Todo[] {
   return todos.map(t => t.id === id ? { ...t, completed: !t.completed } : t)
 }
+
+export function removeTodo(todos: Todo[], id: string): Todo[] {
+  return todos.filter(t => t.id !== id)
+}
