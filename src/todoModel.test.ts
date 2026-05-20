@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { addTodo, type Todo } from './todoModel'
+import { addTodo, toggleTodo, type Todo } from './todoModel'
 
 describe('addTodo', () => {
   it('prepends the new todo to the list', () => {
@@ -23,5 +23,28 @@ describe('addTodo', () => {
 
   it('ignores whitespace-only input', () => {
     expect(addTodo([], '   ')).toHaveLength(0)
+  })
+})
+
+describe('toggleTodo', () => {
+  const base: Todo[] = [
+    { id: '1', title: 'first', completed: false, createdAt: '' },
+    { id: '2', title: 'second', completed: false, createdAt: '' },
+  ]
+
+  it('flips completed by id', () => {
+    const result = toggleTodo(base, '1')
+    expect(result[0].completed).toBe(true)
+  })
+
+  it('leaves other todos untouched', () => {
+    const result = toggleTodo(base, '1')
+    expect(result[1].completed).toBe(false)
+  })
+
+  it('is idempotent across two calls', () => {
+    const once = toggleTodo(base, '1')
+    const twice = toggleTodo(once, '1')
+    expect(twice[0].completed).toBe(false)
   })
 })

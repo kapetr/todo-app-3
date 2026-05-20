@@ -15,3 +15,7 @@ export function addTodo(todos: Todo[], title: string): Todo[] {
   }
   return [todo, ...todos]
 }
+
+export function toggleTodo(todos: Todo[], id: string): Todo[] {
+  return todos.map(t => t.id === id ? { ...t, completed: !t.completed } : t)
+}
