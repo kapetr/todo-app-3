@@ -29,3 +29,11 @@ export function editTodo(todos: Todo[], id: string, newTitle: string): Todo[] {
   if (!trimmed) return removeTodo(todos, id)
   return todos.map(t => t.id === id ? { ...t, title: trimmed } : t)
 }
+
+export type Filter = 'all' | 'active' | 'completed'
+
+export function filterTodos(todos: Todo[], filter: Filter): Todo[] {
+  if (filter === 'active') return todos.filter(t => !t.completed)
+  if (filter === 'completed') return todos.filter(t => t.completed)
+  return todos
+}
