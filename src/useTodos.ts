@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import type { Todo } from './todoModel'
-import { addTodo, toggleTodo, removeTodo, editTodo } from './todoModel'
+import { addTodo, toggleTodo, removeTodo, editTodo, clearCompleted } from './todoModel'
 import { loadTodos, saveTodos } from './storage'
 
 export function useTodos() {
@@ -26,5 +26,9 @@ export function useTodos() {
     setTodos(prev => editTodo(prev, id, newTitle))
   }
 
-  return { todos, handleAdd, handleToggle, handleRemove, handleEdit }
+  function handleClearCompleted() {
+    setTodos(prev => clearCompleted(prev))
+  }
+
+  return { todos, handleAdd, handleToggle, handleRemove, handleEdit, handleClearCompleted }
 }

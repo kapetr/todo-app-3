@@ -86,3 +86,19 @@
   border-color: #999;
   font-weight: 600;
 }
+
+.todo-clear-completed {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  transition: color 0.15s;
+}
+
+.todo-clear-completed:hover {
+  color: #333;
+  text-decoration: underline;
+}
